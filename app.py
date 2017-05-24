@@ -9,7 +9,7 @@ from __future__ import unicode_literals
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-import config
+from config import config
 
 
 db = SQLAlchemy()
