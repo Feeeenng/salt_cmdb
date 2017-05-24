@@ -12,7 +12,7 @@ class Config(object):
 
 
     #salt api 配置
-    SALT_HOST= 'http://106.14.39.151:8000'
+    SALT_HOST= ''
     SALT_USER = 'saltapi'
     SALT_PASSWD = 'password'
     SAL_EAUTH = 'pam'
