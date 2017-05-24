@@ -5,3 +5,17 @@
 @file: __init__.py
 '''
 from __future__ import unicode_literals
+
+
+from flask import jsonify
+
+
+def res(code=0,data=None,message=None):
+
+    return jsonify({
+        'code':code,
+        'data':data,
+        'message':message
+    })
+
+
