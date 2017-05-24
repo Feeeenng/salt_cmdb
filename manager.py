@@ -15,7 +15,7 @@ from app import create_app
 
 app = create_app()
 manager = Manager(app)
-manager.add_command("runserver",Server(threaded=True,port=80))
+manager.add_command("runserver",Server(threaded=True,port=80,use_debugger=True))
 
 
 @app.before_request
