@@ -1,6 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea/*
-.idea/vcs.xml
-.pyc
 
-config/__init__.py
+*.pyc
+
+config/
+.idea/
