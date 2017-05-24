@@ -3,3 +3,4 @@
 .idea/vcs.xml
 .pyc
 
+config/__init__.py
