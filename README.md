@@ -1,0 +1,1 @@
+# This is Salt-api CMDB for Flask
