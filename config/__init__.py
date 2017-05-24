@@ -12,9 +12,9 @@ class Config(object):
 
 
     #salt api 配置
-    SALT_HOST= ''
-    SALT_USER = ''
-    SALT_PASSWD = ''
+    SALT_HOST= 'http://106.14.39.151:8000'
+    SALT_USER = 'saltapi'
+    SALT_PASSWD = 'password'
     SAL_EAUTH = 'pam'
 
     # mysql 配置
@@ -37,3 +37,6 @@ class Config(object):
     @staticmethod
     def init_app(app):
         pass
+
+
+config = Config()

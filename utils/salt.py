@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+from __future__ import print_function
+
 '''
 @author: 'FenG_Vnc'
 @date: 2017-05-24 15:05
@@ -35,18 +37,16 @@ class SaltApi(object):
         self.passwd = config.SALT_PASSWD
         self.eauth = config.SAL_EAUTH
         self.auth = {}
-        self.r = redis_cil()
+        self.redis_cil = redis_cil()
         self.redis_key  = 'salt:user:{user}:login'.format(user=self.user)
 
     def req(self,path,info):
-
         urlpath = urljoin(self.url, path)
-        if self.r.get(self.redis_key):
-            token = json.loads(self.r.get(self.redis_key).decode('utf-8'))
+        if self.redis_cil.get(self.redis_key):
+            token = json.loads(self.redis_cil.get(self.redis_key).decode('utf-8'))
             self.headers['X-Auth-Token'] = token['X-Auth-Token']
-
         s = session()
-        info = json.dumps(info)
+        info = json.loads(info)
         res = s.post(urlpath,info,headers=self.headers)
         return res
 
@@ -54,7 +54,7 @@ class SaltApi(object):
     def req_get(self,path):
 
         urlpath = urljoin(self.url,path)
-        token = json.loads(self.r.get(self.redis_key).decode('utf-8'))
+        token = json.loads(self.redis_cil.get(self.redis_key))
         self.headers['X-Auth-Token'] = token['X-Auth-Token']
 
         s = session()
@@ -62,9 +62,8 @@ class SaltApi(object):
         return res
 
     def login(self):
-        redis_key = 'salt:user:{user}:login'.format (user=self.user)
-        if self.r.get (redis_key):
-            self.auth = self.r.get(redis_key)
+        if self.redis_cil.get(self.redis_key):
+            self.auth = self.redis_cil.get(self.redis_key)
             return self.auth
         else:
             login_info = {
@@ -79,7 +78,7 @@ class SaltApi(object):
         expire_time = int(end_time -start_time)
         token = ret_info['token']
         self.auth['X-Auth-Token'] = token
-        self.r.set (redis_key, json.dumps(self.auth), expire_time)
+        self.redis_cil.set (self.redis_key, json.dumps(self.auth), expire_time)
         return self.auth
 
     @property
@@ -102,7 +101,7 @@ class SaltApi(object):
         res = self.req_get('/keys').json()
         return res
 
-    def run(self,fun,args,tgt):
+    def run(self, fun, args, tgt):
         data_info = [{
             'clinet':"local",
             "tgt":tgt,
@@ -113,5 +112,6 @@ class SaltApi(object):
             data_info[0]['arg'] = args
 
         res = self.req('',data_info).json()
+        assert isinstance (res,object )
         return res
 
