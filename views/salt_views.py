@@ -51,6 +51,5 @@ def keys():
 @instance.route('/publish',methods=['POST'])
 def git():
     post_info = request.get_json(force=True)
-    data = salt.run(fun=post_info['fun'],args=post_info['args'],tgt=post_info['tgt'],)
-
+    data = salt.run(tgt=post_info['tgt'],fun=post_info['fun'],arg=post_info['arg'])
     return res(data=data)

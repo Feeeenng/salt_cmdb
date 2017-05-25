@@ -12,10 +12,14 @@ from flask import jsonify
 
 def res(code=0,data=None,message=None):
 
+    if message:
+        message = message
+    else:
+        message = '操作成功'
     return jsonify({
-        'code':code,
-        'data':data,
-        'message':message
+        "code":code,
+        "data":data,
+        "message":message
     })
 
 

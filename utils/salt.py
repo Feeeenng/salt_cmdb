@@ -45,9 +45,10 @@ class SaltApi(object):
         if self.redis_cil.get(self.redis_key):
             token = json.loads(self.redis_cil.get(self.redis_key).decode('utf-8'))
             self.headers['X-Auth-Token'] = token['X-Auth-Token']
+
         s = session()
-        info = json.loads(info)
-        res = s.post(urlpath,info,headers=self.headers)
+        info = json.dumps(info)
+        res = s.post(urlpath,data=info,headers=self.headers)
         return res
 
 
@@ -101,17 +102,16 @@ class SaltApi(object):
         res = self.req_get('/keys').json()
         return res
 
-    def run(self, fun, args, tgt):
-        data_info = [{
-            'clinet':"local",
+    def run(self, tgt, fun, arg,):
+        data_info = {
+            "client":"local",
             "tgt":tgt,
-            "fun":fun
-        }]
+            "fun":fun,
+        }
 
-        if args:
-            data_info[0]['arg'] = args
-
-        res = self.req('',data_info).json()
-        assert isinstance (res,object )
+        if arg:
+            data_info['arg'] = arg
+        # print data_info
+        res = self.req('/',data_info).json()
         return res
 
