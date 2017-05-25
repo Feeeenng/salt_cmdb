@@ -16,12 +16,8 @@ instance = Blueprint('hosts',__name__,url_prefix='/hosts')
 
 salt = SaltApi()
 
-
 @instance.route('/get/<name>')
 def get_host(name):
-
-    if not name:
-        return res(message='参数不正确')
 
     s = salt.minions['return'][0]
     if name not in s.keys():
@@ -33,4 +29,14 @@ def get_host(name):
 
 
 
+@instance.route('/server',methods=['POST'])
+def get_server():
 
+    data_info = request.get_json(force=True)
+    content = salt.run(tgt=data_info['tgt'],fun=data_info['fun'],arg=data_info['arg'])
+    return res(data=content)
+
+
+# @instance.route('/filename',methods=['POST'])
+# def get_filename():
+#

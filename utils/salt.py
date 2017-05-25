@@ -103,6 +103,13 @@ class SaltApi(object):
         return res
 
     def run(self, tgt, fun, arg,):
+        '''
+        
+        :param  tgt  *全部主机 
+        :param  fun   模块名
+        :param  arg   参数名
+        :return 
+        '''
         data_info = {
             "client":"local",
             "tgt":tgt,

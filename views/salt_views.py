@@ -48,8 +48,10 @@ def keys():
     return res(data=salt.keys)
 
 
-@instance.route('/publish',methods=['POST'])
-def git():
-    post_info = request.get_json(force=True)
-    data = salt.run(tgt=post_info['tgt'],fun=post_info['fun'],arg=post_info['arg'])
-    return res(data=data)
+# @instance.route('/publish',methods=['POST'])
+# def git():
+#     post_info = request.get_json(force=True)
+#     data = salt.run(tgt=post_info['tgt'],fun=post_info['fun'],arg=post_info['arg'])
+#     return res(data=data)
+
+
