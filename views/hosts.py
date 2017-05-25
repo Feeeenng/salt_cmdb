@@ -26,8 +26,6 @@ def get_host(name):
     s = salt.minions['return'][0]
     if name not in s.keys():
         return res(message='主机未监控')
-    # for i in s['return']:
-
 
     content = salt.get_hosts(name)
 
