@@ -8,7 +8,7 @@ from __future__ import unicode_literals
 
 import re
 
-from flask import jsonify,request,session,Blueprint
+from flask import jsonify,request,Blueprint
 
 from utils.salt import SaltApi
 from models import res

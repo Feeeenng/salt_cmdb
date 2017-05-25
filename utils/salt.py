@@ -115,3 +115,31 @@ class SaltApi(object):
         res = self.req('/',data_info).json()
         return res
 
+    def get_hosts(self,name):
+        content = []
+        count = ''
+        if name == 'all':
+            s = self.minions
+            for i in s['return']:
+                count = len (i.keys ())
+                for a in i.keys ():
+                    datas = {
+                        "host": i[a]['host'],
+                        "name": i[a]['id'],
+                        "eth0": i[a]['ip4_interfaces']['eth0'][0],
+                        "eth1": i[a]['ip4_interfaces']['eth1'][0],
+                        "server_id": i[a]['server_id']
+                    }
+                    content.append (datas)
+            content = {
+                'content': content,
+                'count': count
+            }
+        else:
+            s = self.minions
+            for i in s['return']:
+                datas = {
+                    name: i[name].values ()
+                }
+                content.append(datas)
+        return content
