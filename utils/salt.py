@@ -48,7 +48,7 @@ class SaltApi(object):
 
         s = session()
         info = json.dumps(info)
-        res = s.post(urlpath,data=info,headers=self.headers)
+        res = s.post(urlpath,info,headers=self.headers)
         return res
 
 
@@ -72,8 +72,8 @@ class SaltApi(object):
                 'password': self.passwd,
                 'eauth': self.eauth
             }
-        ret_info = self.req('/login', login_info).json ()['return'][0]
 
+        ret_info = self.req('/login',login_info).json ()['return'][0]
         start_time = ret_info['start']
         end_time = ret_info['expire']
         expire_time = int(end_time -start_time)
@@ -113,7 +113,7 @@ class SaltApi(object):
         data_info = {
             "client":"local",
             "tgt":tgt,
-            "fun":fun,
+            "fun":'cmd.run',
         }
 
         if arg:

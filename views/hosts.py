@@ -18,10 +18,10 @@ salt = SaltApi()
 
 @instance.route('/get/<name>')
 def get_host(name):
-
-    s = salt.minions['return'][0]
-    if name not in s.keys():
-        return res(message='主机未监控')
+    # salt.login()
+    # s = salt.minions['return'][0]
+    # if name not in s.keys():
+    #     return res(message='主机未监控')
 
     content = salt.get_hosts(name)
 
@@ -33,10 +33,11 @@ def get_host(name):
 def get_server():
 
     data_info = request.get_json(force=True)
-    content = salt.run(tgt=data_info['tgt'],fun=data_info['fun'],arg=data_info['arg'])
+    fun = 'cmd.run'
+    content = salt.run(tgt=data_info['tgt'],fun=fun,arg=data_info['arg'])
+    print content
     return res(data=content)
 
 
 # @instance.route('/filename',methods=['POST'])
 # def get_filename():
-#

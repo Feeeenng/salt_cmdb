@@ -36,6 +36,7 @@ def __config_blueprint(app):
         instance = getattr(module, 'instance')
         app.register_blueprint(instance)
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
