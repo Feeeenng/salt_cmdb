@@ -11,6 +11,9 @@ from flask_script import Manager,Server,Shell
 
 from app import create_app
 
+from utils.salt import SaltApi
+
+salt = SaltApi()
 
 
 app = create_app()
@@ -21,7 +24,8 @@ manager.add_command("runserver",Server(host='0.0.0.0',threaded=True,port=80,use_
 @app.before_request
 def before_request():
     '''每个请求前执行'''
-    pass
+    if not salt.redis_cil.get(salt.redis_key):
+        salt.login()
 
 @app.teardown_request
 def teardown_request(expection):
