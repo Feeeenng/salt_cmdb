@@ -33,8 +33,6 @@ function getHosts() {
 
 })
 }
-
-
 getHosts()
 
 $('#zhixing').click(function () {
@@ -49,7 +47,8 @@ $('#zhixing').click(function () {
         url:'hosts/server',
         data:JSON.stringify(data),
         success:function (res) {
-            console.log(res.data.return[0])
+
+            $('#run_result').html(res.data.return[0][$('#host_all').val()].replace(/\n/g, '<br>'))
 
         }
 

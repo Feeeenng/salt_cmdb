@@ -33,9 +33,9 @@ def get_host(name):
 def get_server():
 
     data_info = request.get_json(force=True)
-    fun = 'cmd.run'
+    fun = 'ssh.cmd'
     content = salt.run(tgt=data_info['tgt'],fun=fun,arg=data_info['arg'])
-    print content
+    print content['return'][0][data_info['tgt']]
     return res(data=content)
 
 
