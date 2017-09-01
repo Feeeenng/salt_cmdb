@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 
 import os
 import glob
+import imp
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -35,7 +36,24 @@ def __config_blueprint(app):
 
         instance = getattr(module, 'instance')
         app.register_blueprint(instance)
+        
+def configure(app, path):
+    """Configure blueprints in views."""
 
+    dir_list = os.listdir(path)
+    mods = {}
+
+    for fname in dir_list:
+        if os.path.isdir(os.path.join(path, fname)) and os.path.exists(os.path.join(path, fname, '__init__.py')):
+            f, filename, descr = imp.find_module(fname, [path])
+            mods[fname] = imp.load_module(fname, f, filename, descr)
+            app.register_blueprint(getattr(mods[fname], 'module'))
+        elif os.path.isfile(os.path.join(path, fname)):
+            name, ext = os.path.splitext(fname)
+            if ext == '.py' and not name == '__init__':
+                f, filename, descr = imp.find_module(name, [path])
+                mods[fname] = imp.load_module(name, f, filename, descr)
+                app.register_blueprint(getattr(mods[fname], 'module'))
 
 def create_app():
     app = Flask(__name__)
